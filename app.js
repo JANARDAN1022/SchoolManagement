@@ -45,7 +45,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/", schoolRoutes);
+app.use("/api/schools", schoolRoutes);
+
+//Welcome route
+app.get("/", (req, res) => {
+  res.status(200).send("Hello from School Management - EduCase 🚀");
+});
 
 // Health check endpoint
 app.get("/health", (req, res) => {
