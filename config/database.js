@@ -27,7 +27,30 @@ async function testConnection() {
   }
 }
 
+async function initDB() {
+  try {
+    const connection = await pool.getConnection();
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS schools (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL,
+        latitude FLOAT(10,6) NOT NULL,
+        longitude FLOAT(10,6) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+    logger.info("Schools table created or already exists");
+    connection.release();
+  } catch (error) {
+    logger.error("Failed to initialize database:", error);
+    throw error; // important to handle failure on startup
+  }
+}
+
 module.exports = {
   pool,
   testConnection,
+  initDB,
 };

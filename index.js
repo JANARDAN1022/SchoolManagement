@@ -1,7 +1,7 @@
 // server.js
 const app = require("./app");
 const config = require("./config/config");
-const { testConnection } = require("./config/database");
+const { testConnection, initDB } = require("./config/database");
 const logger = require("./middlewares/logger");
 
 // Set port
@@ -17,6 +17,8 @@ async function startServer() {
       logger.error("Failed to connect to database. Exiting...");
       process.exit(1);
     }
+
+    await initDB();
 
     // Start the server if database connection is successful
     app.listen(PORT, () => {
