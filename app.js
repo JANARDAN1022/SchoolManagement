@@ -49,7 +49,9 @@ app.use("/api/schools", schoolRoutes);
 
 //Welcome route
 app.get("/", (req, res) => {
-  res.status(200).send("Hello from School Management - EduCase 🚀");
+  res
+    .status(200)
+    .json({ Welcome: "Hello from School Management - EduCase 🚀" });
 });
 
 // Health check endpoint
